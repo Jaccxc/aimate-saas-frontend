@@ -1,17 +1,17 @@
 {
   "elementPlus": "Element Plus",
-  "form": "表单演示",
+  "form": "表單演示",
   "services": {
     "title": ""
   },
   "title": "演示",
   "vben": {
-    "about": "关于",
+    "about": "關於",
     "antdv": "Ant Design Vue 版本",
-    "document": "文档",
+    "document": "文件",
     "element-plus": "Element Plus 版本",
     "naive-ui": "Naive UI 版本",
-    "title": "项目"
+    "title": "專案"
   },
   "test": {
     "title": "測試"

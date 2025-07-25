@@ -1,18 +1,28 @@
 <script lang="ts" setup>
 import type { VbenFormSchema } from '@vben/common-ui';
-import type { Recordable } from '@vben/types';
 
-import { computed, h, ref } from 'vue';
+import { computed, h } from 'vue';
 
 import { AuthenticationRegister, z } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
+import { useAuthStore } from '#/store';
+
 defineOptions({ name: 'Register' });
 
-const loading = ref(false);
+const authStore = useAuthStore();
 
 const formSchema = computed((): VbenFormSchema[] => {
   return [
+    {
+      component: 'VbenInput',
+      componentProps: {
+        placeholder: $t('authentication.emailTip'),
+      },
+      fieldName: 'email',
+      label: $t('authentication.email'),
+      rules: z.string().email({ message: $t('authentication.emailInvalid') }),
+    },
     {
       component: 'VbenInput',
       componentProps: {
@@ -58,6 +68,15 @@ const formSchema = computed((): VbenFormSchema[] => {
       label: $t('authentication.confirmPassword'),
     },
     {
+      component: 'VbenInput',
+      componentProps: {
+        placeholder: $t('authentication.resellerCodeTip'),
+      },
+      fieldName: 'resellerCode',
+      label: $t('authentication.resellerCode'),
+      rules: z.string(),
+    },
+    {
       component: 'VbenCheckbox',
       fieldName: 'agreePolicy',
       renderComponentContent: () => ({
@@ -81,16 +100,24 @@ const formSchema = computed((): VbenFormSchema[] => {
   ];
 });
 
-function handleSubmit(value: Recordable<any>) {
-  // eslint-disable-next-line no-console
-  console.log('register submit:', value);
-}
+// async function handleSubmit(value: Recordable<any>) {
+//   console.warn('🚀 REGISTER handleSubmit called with:', value);
+//   console.warn('🚀 authStore exists:', !!authStore);
+//   console.warn('🚀 authStore.authRegister exists:', !!authStore.authRegister);
+//   try {
+//     console.warn('🚀 About to call authStore.authRegister');
+//     await authStore.authRegister(value);
+//     console.warn('🚀 authStore.authRegister completed');
+//   } catch (error) {
+//     console.error('🚀 authRegister error:', error);
+//   }
+// }
 </script>
 
 <template>
   <AuthenticationRegister
     :form-schema="formSchema"
-    :loading="loading"
-    @submit="handleSubmit"
+    :loading="authStore.registerLoading"
+    @submit="authStore.authRegister"
   />
 </template>

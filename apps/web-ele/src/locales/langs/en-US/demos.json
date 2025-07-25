@@ -1,13 +1,19 @@
 {
-  "title": "Demos",
   "elementPlus": "Element Plus",
   "form": "Form",
+  "services": {
+    "title": ""
+  },
+  "title": "Demos",
   "vben": {
-    "title": "Project",
     "about": "About",
-    "document": "Document",
     "antdv": "Ant Design Vue Version",
+    "document": "Document",
+    "element-plus": "Element Plus Version",
     "naive-ui": "Naive UI Version",
-    "element-plus": "Element Plus Version"
+    "title": "Project"
+  },
+  "test": {
+    "title": "測試"
   }
 }

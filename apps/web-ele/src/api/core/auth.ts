@@ -4,12 +4,30 @@ export namespace AuthApi {
   /** 登录接口参数 */
   export interface LoginParams {
     password?: string;
-    username?: string;
+    email?: string;
+  }
+
+  /** 注册接口参数 */
+  export interface RegisterParams {
+    email: string;
+    password: string;
+    username: string;
+    resellerCode?: string;
   }
 
   /** 登录接口返回值 */
   export interface LoginResult {
-    accessToken: string;
+    access_token: string;
+  }
+
+  /** API 原始返回值 */
+  export interface LoginApiResponse {
+    token: string;
+  }
+
+  /** 注册接口返回值 */
+  export interface RegisterResult {
+    token?: string;
   }
 
   export interface RefreshTokenResult {
@@ -22,7 +40,24 @@ export namespace AuthApi {
  * 登录
  */
 export async function loginApi(data: AuthApi.LoginParams) {
-  return requestClient.post<AuthApi.LoginResult>('/auth/login', data);
+  const response = await requestClient.post<AuthApi.LoginApiResponse>(
+    '/auth/login',
+    data,
+  );
+  return {
+    access_token: response.token,
+  };
+}
+
+/**
+ * 注册
+ */
+export async function registerApi(data: AuthApi.RegisterParams) {
+  const result = await requestClient.post<AuthApi.RegisterResult>(
+    '/auth/register',
+    data,
+  );
+  return result;
 }
 
 /**

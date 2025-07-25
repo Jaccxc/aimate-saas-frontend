@@ -1,0 +1,15 @@
+{
+  "title": "AI 智能服務",
+  "operatorIntelligence": {
+    "title": "Operator Intelligence 後台助手"
+  },
+  "salesAssistance": {
+    "title": "Sales Assitance 客服助手"
+  },
+  "virtualKOL": {
+    "title": "Virtual KOL"
+  },
+  "voiceBot": {
+    "title": "Voice Bot 語音機器人"
+  }
+}

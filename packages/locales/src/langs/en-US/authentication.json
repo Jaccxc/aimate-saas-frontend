@@ -4,11 +4,15 @@
   "pageDesc": "Efficient, versatile frontend template",
   "loginSuccess": "Login Successful",
   "loginSuccessDesc": "Welcome Back",
+  "registerSuccess": "Registration Successful",
+  "registerSuccessDesc": "Registration Completed Successfully",
+  "registerFailed": "Registration Failed",
   "loginSubtitle": "Enter your account details to manage your projects",
   "selectAccount": "Quick Select Account",
   "username": "Username",
   "password": "Password",
   "usernameTip": "Please enter username",
+  "emailInvalid": "Please enter a valid email address",
   "passwordErrorTip": "Password is incorrect",
   "passwordTip": "Please enter password",
   "verifyRequiredTip": "Please complete the verification first",
@@ -26,7 +30,7 @@
   "terms": "Terms",
   "agreeTip": "Please agree to the Privacy Policy and Terms",
   "goToLogin": "Login instead",
-  "passwordStrength": "Use 8 or more characters with a mix of letters, numbers & symbols",
+  "passwordStrength": "Use 8 or more characters with a mix of letters, numbers",
   "forgetPassword": "Forget Password?",
   "forgetPasswordSubtitle": "Enter your email and we'll send you instructions to reset your password",
   "emailTip": "Please enter email",
@@ -52,5 +56,7 @@
     "center": "Align Center",
     "alignLeft": "Align Left",
     "alignRight": "Align Right"
-  }
+  },
+  "resellerCode": "Reseller Code",
+  "resellerCodeTip": "Enter reseller code (optional)"
 }

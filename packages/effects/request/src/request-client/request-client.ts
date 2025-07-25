@@ -111,6 +111,7 @@ class RequestClient {
     data?: any,
     config?: RequestClientConfig,
   ): Promise<T> {
+    console.warn('22222');
     return this.request<T>(url, { ...config, data, method: 'POST' });
   }
 

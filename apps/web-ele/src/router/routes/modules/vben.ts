@@ -1,68 +1,82 @@
 import type { RouteRecordRaw } from 'vue-router';
 
-import {
-  VBEN_ANT_PREVIEW_URL,
-  VBEN_DOC_URL,
-  VBEN_GITHUB_URL,
-  VBEN_LOGO_URL,
-  VBEN_NAIVE_PREVIEW_URL,
-} from '@vben/constants';
-import { SvgAntdvLogoIcon } from '@vben/icons';
+import { VBEN_LOGO_URL } from '@vben/constants';
 
-import { IFrameView } from '#/layouts';
 import { $t } from '#/locales';
 
 const routes: RouteRecordRaw[] = [
   {
     meta: {
-      badgeType: 'dot',
       icon: VBEN_LOGO_URL,
       order: 9998,
-      title: $t('demos.vben.title'),
+      title: $t('services.title'),
     },
-    name: 'VbenProject',
-    path: '/vben-admin',
+    name: 'Services',
+    path: '/services',
     children: [
       {
-        name: 'VbenDocument',
-        path: '/vben-admin/document',
-        component: IFrameView,
+        name: 'SalesAssistance',
+        path: '/services/sales_assistance',
+        component: () => import('#/views/services/sales_assistance.vue'),
         meta: {
-          icon: 'lucide:book-open-text',
-          link: VBEN_DOC_URL,
-          title: $t('demos.vben.document'),
+          icon: 'lucide:messages-square',
+          title: $t('services.salesAssistance.title'),
         },
       },
       {
-        name: 'VbenGithub',
-        path: '/vben-admin/github',
-        component: IFrameView,
+        name: 'OperatorIntelligence',
+        path: '/services/operator_intelligence',
+        component: () => import('#/views/services/operator_intelligence.vue'),
         meta: {
-          icon: 'mdi:github',
-          link: VBEN_GITHUB_URL,
-          title: 'Github',
+          icon: 'lucide:server-cog',
+          title: $t('services.operatorIntelligence.title'),
         },
       },
       {
-        name: 'VbenNaive',
-        path: '/vben-admin/naive',
-        component: IFrameView,
+        name: 'VoiceBot',
+        path: '/services/voice_bot',
+        component: () => import('#/views/services/voice_bot.vue'),
         meta: {
-          badgeType: 'dot',
-          icon: 'logos:naiveui',
-          link: VBEN_NAIVE_PREVIEW_URL,
-          title: $t('demos.vben.naive-ui'),
+          icon: 'lucide:phone-call',
+          title: $t('services.voiceBot.title'),
         },
       },
       {
-        name: 'VbenAntd',
-        path: '/vben-admin/antd',
-        component: IFrameView,
+        name: 'VirtualKOL',
+        path: '/services/virtual_kol',
+        component: () => import('#/views/services/virtual_kol.vue'),
         meta: {
-          badgeType: 'dot',
-          icon: SvgAntdvLogoIcon,
-          link: VBEN_ANT_PREVIEW_URL,
-          title: $t('demos.vben.antdv'),
+          icon: 'lucide:users-round',
+          title: $t('services.virtualKOL.title'),
+        },
+      },
+    ],
+  },
+  {
+    meta: {
+      icon: 'lucide:blinds',
+      order: 9998,
+      title: $t('demos.test.title'),
+    },
+    name: 'TestPages',
+    path: '/test',
+    children: [
+      {
+        name: 'TestPage1',
+        path: '/demos/test-page-1',
+        component: () => import('#/views/demos/tests/test_page_1.vue'),
+        meta: {
+          icon: 'lucide:file-code',
+          title: 'Test Page 1',
+        },
+      },
+      {
+        name: 'TestPage2',
+        path: '/demos/test-page-2',
+        component: () => import('#/views/demos/tests/test_page_2.vue'),
+        meta: {
+          icon: 'lucide:file-code-2',
+          title: 'Test Page 2',
         },
       },
     ],

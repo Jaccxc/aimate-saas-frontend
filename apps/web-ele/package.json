@@ -41,6 +41,7 @@
     "@vben/types": "workspace:*",
     "@vben/utils": "workspace:*",
     "@vueuse/core": "catalog:",
+    "crypto-js": "^4.2.0",
     "dayjs": "catalog:",
     "element-plus": "catalog:",
     "pinia": "catalog:",

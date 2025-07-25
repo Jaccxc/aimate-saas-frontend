@@ -1,5 +1,7 @@
 import type { Recordable, UserInfo } from '@vben/types';
 
+import type { AuthApi } from '#/api';
+
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -10,7 +12,13 @@ import { resetAllStores, useAccessStore, useUserStore } from '@vben/stores';
 import { ElNotification } from 'element-plus';
 import { defineStore } from 'pinia';
 
-import { getAccessCodesApi, getUserInfoApi, loginApi, logoutApi } from '#/api';
+import {
+  getAccessCodesApi,
+  getUserInfoApi,
+  loginApi,
+  logoutApi,
+  registerApi,
+} from '#/api';
 import { $t } from '#/locales';
 
 export const useAuthStore = defineStore('auth', () => {
@@ -19,6 +27,7 @@ export const useAuthStore = defineStore('auth', () => {
   const router = useRouter();
 
   const loginLoading = ref(false);
+  const registerLoading = ref(false);
 
   /**
    * 异步处理登录操作
@@ -33,12 +42,12 @@ export const useAuthStore = defineStore('auth', () => {
     let userInfo: null | UserInfo = null;
     try {
       loginLoading.value = true;
-      const { accessToken } = await loginApi(params);
+      const { access_token } = await loginApi(params);
 
       // 如果成功获取到 accessToken
-      if (accessToken) {
+      if (access_token) {
         // 将 accessToken 存储到 accessStore 中
-        accessStore.setAccessToken(accessToken);
+        accessStore.setAccessToken(access_token);
 
         // 获取用户信息并存储到 accessStore 中
         const [fetchUserInfoResult, accessCodes] = await Promise.all([
@@ -78,6 +87,84 @@ export const useAuthStore = defineStore('auth', () => {
     };
   }
 
+  /**
+   * 异步处理注册操作
+   * Asynchronously handle the register process
+   * @param params 注册表单数据
+   */
+  async function authRegister(
+    params: Recordable<any>,
+    onSuccess?: () => Promise<void> | void,
+  ) {
+    console.warn('authRegister called with params:', params);
+    let userInfo: null | UserInfo = null;
+    try {
+      registerLoading.value = true;
+      // 過濾掉 confirmPassword 和 agreePolicy
+      const { email, password, username, resellerCode } = params;
+      console.warn('Filtered params:', {
+        email,
+        password,
+        username,
+        resellerCode,
+      });
+      const result = await registerApi({
+        email,
+        password,
+        username,
+        resellerCode,
+      } as AuthApi.RegisterParams);
+      console.warn('registerApi result:', result);
+
+      if (result.token) {
+        // 将 accessToken 存储到 accessStore 中
+        accessStore.setAccessToken(result.token);
+
+        // 获取用户信息并存储到 accessStore 中
+        const [fetchUserInfoResult, accessCodes] = await Promise.all([
+          fetchUserInfo(),
+          getAccessCodesApi(),
+        ]);
+
+        userInfo = fetchUserInfoResult;
+
+        userStore.setUserInfo(userInfo);
+        accessStore.setAccessCodes(accessCodes);
+
+        if (accessStore.loginExpired) {
+          accessStore.setLoginExpired(false);
+        } else {
+          onSuccess
+            ? await onSuccess?.()
+            : await router.push(
+                userInfo.homePath || preferences.app.defaultHomePath,
+              );
+        }
+
+        if (userInfo?.realName) {
+          ElNotification({
+            message: `${$t('authentication.registerSuccessDesc')}:${userInfo?.realName}`,
+            title: $t('authentication.registerSuccess'),
+            type: 'success',
+          });
+        }
+      }
+      return {
+        userInfo,
+        result,
+      };
+    } catch (error) {
+      ElNotification({
+        message: $t('authentication.registerFailed'),
+        title: $t('authentication.registerFailed'),
+        type: 'error',
+      });
+      throw error;
+    } finally {
+      registerLoading.value = false;
+    }
+  }
+
   async function logout(redirect: boolean = true) {
     try {
       await logoutApi();
@@ -112,8 +199,10 @@ export const useAuthStore = defineStore('auth', () => {
   return {
     $reset,
     authLogin,
+    authRegister,
     fetchUserInfo,
     loginLoading,
     logout,
+    registerLoading,
   };
 });

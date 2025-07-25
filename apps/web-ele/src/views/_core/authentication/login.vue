@@ -31,20 +31,6 @@ const MOCK_USER_OPTIONS: BasicOption[] = [
 const formSchema = computed((): VbenFormSchema[] => {
   return [
     {
-      component: 'VbenSelect',
-      componentProps: {
-        options: MOCK_USER_OPTIONS,
-        placeholder: $t('authentication.selectAccount'),
-      },
-      fieldName: 'selectAccount',
-      label: $t('authentication.selectAccount'),
-      rules: z
-        .string()
-        .min(1, { message: $t('authentication.selectAccount') })
-        .optional()
-        .default('vben'),
-    },
-    {
       component: 'VbenInput',
       componentProps: {
         placeholder: $t('authentication.usernameTip'),
@@ -65,9 +51,9 @@ const formSchema = computed((): VbenFormSchema[] => {
         },
         triggerFields: ['selectAccount'],
       },
-      fieldName: 'username',
-      label: $t('authentication.username'),
-      rules: z.string().min(1, { message: $t('authentication.usernameTip') }),
+      fieldName: 'email',
+      label: $t('authentication.email'),
+      rules: z.string().email({ message: $t('authentication.emailInvalid') }),
     },
     {
       component: 'VbenInputPassword',
@@ -76,7 +62,9 @@ const formSchema = computed((): VbenFormSchema[] => {
       },
       fieldName: 'password',
       label: $t('authentication.password'),
-      rules: z.string().min(1, { message: $t('authentication.passwordTip') }),
+      rules: z
+        .string()
+        .min(8, { message: $t('authentication.passwordTooShort') }),
     },
     {
       component: markRaw(SliderCaptcha),
